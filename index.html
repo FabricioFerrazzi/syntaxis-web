@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Syntaxis Web | Desarrollo Web Profesional</title>
+<meta name="description" content="Syntaxis Web - Estudio de desarrollo web. Creamos páginas web profesionales para negocios y profesionales. Corrientes, Argentina.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+
+<style>
+/* =====================================================
+   1. VARIABLES Y BASE
+   ===================================================== */
+:root {
+  --negro: #0a0a0a;
+  --carbon-solido: #141414;
+  --azul: #00d4ff;
+  --azul-suave: #66e5ff;
+  --azul-oscuro: #0086a8;
+  --crema: #f2ece0;
+  --gris: #a0a0a0;
+  --font-titulo: 'Orbitron', sans-serif;
+  --font-cuerpo: 'Inter', system-ui, sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background-color: var(--negro);
+  color: var(--crema);
+  font-family: var(--font-cuerpo);
+  line-height: 1.65;
+  overflow-x: hidden;
+}
+
+h1, h2, h3 { font-family: var(--font-titulo); color: var(--crema); font-weight: 700; }
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; display: block; }
+
+.contenedor { max-width: 1200px; margin: 0 auto; padding: 0 6%; }
+
+.boton {
+  display: inline-block;
+  padding: 15px 32px;
+  border-radius: 2px;
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+  cursor: pointer;
+  font-family: var(--font-titulo);
+}
+.boton-azul { background-color: var(--azul); color: var(--negro); box-shadow: 0 0 20px rgba(0,212,255,0.4); }
+.boton-azul:hover { background-color: var(--azul-suave); transform: translateY(-2px); box-shadow: 0 0 30px rgba(0,212,255,0.7); }
+.boton-outline { border-color: var(--azul); color: var(--azul); }
+.boton-outline:hover { background-color: rgba(0,212,255,0.1); box-shadow: 0 0 20px rgba(0,212,255,0.3); }
+
+.reveal { opacity: 0; transform: translateY(26px); transition: opacity 0.8s ease, transform 0.8s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+.linea-azul { width: 60px; height: 2px; background-color: var(--azul); margin: 0 auto 24px; box-shadow: 0 0 10px rgba(0,212,255,0.8); }
+
+/* =====================================================
+   2. HEADER
+   ===================================================== */
+header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 6%;
+  background-color: rgba(10,10,10,0.4);
+  backdrop-filter: blur(8px);
+  transition: background-color 0.35s ease, padding 0.35s ease;
+}
+header.header-solido { background-color: rgba(10,10,10,0.95); padding: 12px 6%; border-bottom: 1px solid rgba(0,212,255,0.15); }
+
+.logo-header {
+  display: flex; align-items: center; gap: 12px;
+}
+.logo-header img { height: 45px; width: auto; }
+.logo-header-texto {
+  font-family: var(--font-titulo);
+  font-size: 18px;
+  letter-spacing: 1px;
+  color: var(--crema);
+}
+.logo-header-texto span { color: var(--azul); }
+
+nav ul { display: flex; gap: 30px; list-style: none; }
+nav a { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--crema); position: relative; font-weight: 500; }
+nav a::after { content: ''; position: absolute; left: 0; bottom: -6px; width: 0; height: 1px; background-color: var(--azul); transition: width 0.25s ease; box-shadow: 0 0 8px var(--azul); }
+nav a:hover::after { width: 100%; }
+nav a:hover { color: var(--azul); }
+
+.nav-toggle { display: none; background: none; border: none; color: var(--crema); font-size: 24px; }
+
+@media (max-width: 900px) {
+  nav ul {
+    position: fixed; top: 75px; right: 0;
+    background-color: var(--carbon-solido);
+    flex-direction: column; gap: 0; width: 230px;
+    transform: translateX(110%);
+    transition: transform 0.3s ease;
+    padding: 10px 0;
+    border-left: 1px solid rgba(0,212,255,0.2);
+  }
+  nav ul.abierto { transform: translateX(0); }
+  nav ul li { padding: 16px 26px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .nav-toggle { display: block; }
+  .logo-header-texto { display: none; }
+}
+
+/* =====================================================
+   3. HERO
+   ===================================================== */
+.hero {
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  padding: 140px 6% 80px;
+  position: relative;
+  background-image:
+    radial-gradient(circle at 80% 20%, rgba(0,212,255,0.1) 0%, transparent 50%),
+    radial-gradient(circle at 20% 80%, rgba(0,212,255,0.06) 0%, transparent 50%);
+}
+.hero-contenido { max-width: 900px; text-align: center; }
+
+.hero-logo { height: 140px; margin: 0 auto 30px; filter: drop-shadow(0 0 40px rgba(0,212,255,0.6)); animation: flotar 4s ease-in-out infinite; }
+
+@keyframes flotar {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.hero h1 {
+  font-size: clamp(44px, 7vw, 88px);
+  line-height: 1.05;
+  margin-bottom: 24px;
+  letter-spacing: -1px;
+}
+.hero h1 span { color: var(--azul); text-shadow: 0 0 30px rgba(0,212,255,0.5); }
+
+.hero .subtitulo {
+  font-size: clamp(17px, 2vw, 22px);
+  color: var(--gris);
+  max-width: 700px;
+  margin: 0 auto 40px;
+}
+
+.hero-botones { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+/* =====================================================
+   4. SECCIÓN GENÉRICA
+   ===================================================== */
+section { padding: 120px 0; }
+.titulo-seccion { font-size: clamp(30px, 4vw, 48px); text-align: center; margin-bottom: 8px; letter-spacing: 1px; }
+.subtitulo-seccion {
+  text-align: center; max-width: 600px; margin: 0 auto 60px;
+  color: var(--gris); font-size: 16px;
+}
+
+/* =====================================================
+   5. SERVICIOS
+   ===================================================== */
+.servicios { background-color: var(--carbon-solido); }
+.servicios-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 26px;
+}
+.servicio-card {
+  background-color: var(--negro);
+  border: 1px solid rgba(0,212,255,0.2);
+  border-radius: 4px;
+  padding: 40px 30px;
+  text-align: center;
+  transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+.servicio-card:hover { border-color: var(--azul); transform: translateY(-6px); box-shadow: 0 10px 40px rgba(0,212,255,0.15); }
+.servicio-icono {
+  width: 60px; height: 60px;
+  margin: 0 auto 24px;
+  background-color: rgba(0,212,255,0.08);
+  border: 1px solid rgba(0,212,255,0.3);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+}
+.servicio-icono svg { width: 26px; height: 26px; fill: var(--azul); }
+.servicio-card h3 { font-size: 20px; margin-bottom: 12px; letter-spacing: 1px; }
+.servicio-card p { font-size: 14.5px; color: var(--gris); }
+
+/* =====================================================
+   6. PROYECTOS
+   ===================================================== */
+.proyectos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 30px;
+}
+.proyecto-card {
+  background-color: var(--carbon-solido);
+  border-radius: 4px;
+  overflow: hidden;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  border: 1px solid rgba(0,212,255,0.15);
+}
+.proyecto-card:hover { transform: translateY(-8px); border-color: var(--azul); box-shadow: 0 15px 50px rgba(0,212,255,0.2); }
+
+.proyecto-img {
+  height: 220px;
+  background-color: #1a1a1a;
+  overflow: hidden;
+  position: relative;
+}
+.proyecto-img img { width: 100%; height: 100%; object-fit: cover; object-position: top; transition: transform 0.6s ease; }
+.proyecto-card:hover .proyecto-img img { transform: scale(1.05); }
+
+.proyecto-info { padding: 30px; }
+.proyecto-categoria {
+  font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase;
+  color: var(--azul); margin-bottom: 10px; display: block; font-weight: 600;
+}
+.proyecto-info h3 { font-size: 22px; margin-bottom: 12px; letter-spacing: 0.5px; }
+.proyecto-info p { font-size: 14.5px; color: var(--gris); margin-bottom: 20px; }
+.proyecto-info .boton { padding: 10px 22px; font-size: 11px; }
+
+/* =====================================================
+   7. SOBRE NOSOTROS
+   ===================================================== */
+.sobre-mi { background-color: var(--carbon-solido); }
+.sobre-mi-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 70px;
+  align-items: center;
+}
+.sobre-mi-foto {
+  aspect-ratio: 1/1;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid rgba(0,212,255,0.2);
+  background-color: var(--negro);
+  display: flex; align-items: center; justify-content: center;
+  padding: 40px;
+}
+.sobre-mi-foto img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 0 30px rgba(0,212,255,0.5)); }
+.sobre-mi-texto h2 { font-size: clamp(28px, 3.5vw, 42px); margin-bottom: 20px; letter-spacing: 1px; }
+.sobre-mi-texto p { font-size: 16px; color: var(--gris); margin-bottom: 20px; line-height: 1.75; }
+.sobre-mi-texto p strong { color: var(--azul); }
+
+.tecnologias {
+  display: flex; flex-wrap: wrap; gap: 10px;
+  margin-top: 30px;
+}
+.tecnologias span {
+  padding: 8px 16px;
+  background-color: rgba(0,212,255,0.08);
+  border: 1px solid rgba(0,212,255,0.3);
+  border-radius: 2px;
+  font-size: 12px;
+  color: var(--azul-suave);
+  font-family: var(--font-titulo);
+  letter-spacing: 1px;
+}
+
+@media (max-width: 860px) {
+  .sobre-mi-grid { grid-template-columns: 1fr; gap: 40px; }
+  .sobre-mi-foto { max-width: 250px; margin: 0 auto; }
+}
+
+/* =====================================================
+   8. CONTACTO
+   ===================================================== */
+.contacto-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.contacto-dato { margin-bottom: 24px; }
+.contacto-dato strong {
+  display: block; color: var(--azul);
+  font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase;
+  margin-bottom: 6px; font-family: var(--font-titulo);
+}
+.contacto-dato p { font-size: 16px; }
+.contacto-dato a { color: var(--crema); transition: color 0.25s ease; }
+.contacto-dato a:hover { color: var(--azul); }
+
+.contacto-botones { display: flex; gap: 14px; margin-top: 30px; flex-wrap: wrap; }
+
+@media (max-width: 860px) {
+  .contacto-grid { grid-template-columns: 1fr; }
+}
+
+/* =====================================================
+   9. FOOTER
+   ===================================================== */
+footer {
+  padding: 50px 6% 30px;
+  text-align: center;
+  border-top: 1px solid rgba(0,212,255,0.1);
+}
+.footer-logo {
+  height: 60px;
+  margin: 0 auto 16px;
+  filter: drop-shadow(0 0 15px rgba(0,212,255,0.5));
+}
+.footer-copy { font-size: 12px; color: var(--gris); letter-spacing: 0.5px; }
+
+/* =====================================================
+   10. WHATSAPP FLOTANTE
+   ===================================================== */
+.whatsapp-flotante {
+  position: fixed; bottom: 26px; right: 26px; z-index: 999;
+  background-color: #25D366; width: 58px; height: 58px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5), 0 0 20px rgba(37,211,102,0.4);
+  transition: transform 0.25s ease;
+}
+.whatsapp-flotante:hover { transform: scale(1.08); }
+.whatsapp-flotante svg { width: 30px; height: 30px; fill: white; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header id="header">
+  <a href="#inicio" class="logo-header">
+    <img src="logo-syntaxis.png" alt="Syntaxis Web">
+    <span class="logo-header-texto">Syntaxis<span>.Web</span></span>
+  </a>
+  <button class="nav-toggle" id="navToggle" aria-label="Abrir menú">☰</button>
+  <nav>
+    <ul id="navMenu">
+      <li><a href="#servicios">Servicios</a></li>
+      <li><a href="#proyectos">Proyectos</a></li>
+      <li><a href="#nosotros">Nosotros</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="inicio">
+  <div class="hero-contenido">
+    <img src="logo-syntaxis.png" alt="Syntaxis Web" class="hero-logo reveal">
+    <h1 class="reveal">Desarrollo Web<br><span>Profesional</span></h1>
+    <p class="subtitulo reveal">Creamos páginas web modernas, rápidas y funcionales para negocios y profesionales que quieren crecer online.</p>
+    <div class="hero-botones reveal">
+      <a href="#proyectos" class="boton boton-azul">Ver proyectos</a>
+      <a href="#contacto" class="boton boton-outline">Contactanos</a>
+    </div>
+  </div>
+</section>
+
+<main>
+
+<!-- SERVICIOS -->
+<section class="servicios" id="servicios">
+  <div class="contenedor">
+    <div class="linea-azul reveal"></div>
+    <h2 class="titulo-seccion reveal">Servicios</h2>
+    <p class="subtitulo-seccion reveal">Todo lo que necesitás para tener presencia online profesional.</p>
+
+    <div class="servicios-grid">
+
+      <div class="servicio-card reveal">
+        <div class="servicio-icono">
+          <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V8h16v10z"/></svg>
+        </div>
+        <h3>Diseño Web</h3>
+        <p>Páginas modernas, adaptadas a celular y PC. Diseño personalizado para tu marca.</p>
+      </div>
+
+      <div class="servicio-card reveal">
+        <div class="servicio-icono">
+          <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+        </div>
+        <h3>Formularios</h3>
+        <p>Recibí consultas por email o WhatsApp. Todo automatizado y directo a tu correo.</p>
+      </div>
+
+      <div class="servicio-card reveal">
+        <div class="servicio-icono">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+        </div>
+        <h3>Dominio Propio</h3>
+        <p>Tu dirección web profesional (tuempresa.com.ar). Incluye configuración completa.</p>
+      </div>
+
+      <div class="servicio-card reveal">
+        <div class="servicio-icono">
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </div>
+        <h3>Mantenimiento</h3>
+        <p>Actualizaciones, cambios y soporte continuo para que tu web siempre esté al día.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PROYECTOS -->
+<section id="proyectos">
+  <div class="contenedor">
+    <div class="linea-azul reveal"></div>
+    <h2 class="titulo-seccion reveal">Proyectos</h2>
+    <p class="subtitulo-seccion reveal">Algunos de los sitios que ya están funcionando.</p>
+
+    <div class="proyectos-grid">
+
+      <article class="proyecto-card reveal">
+        <div class="proyecto-img">
+          <img src="proyecto-vera.jpg" alt="La Vera Pizza">
+        </div>
+        <div class="proyecto-info">
+          <span class="proyecto-categoria">Pizzería</span>
+          <h3>La Vera Pizza</h3>
+          <p>Página web para pizzería con carrusel de platos, galería y selector de idioma (ES/EN).</p>
+          <a href="https://la-vera-pizza.onrender.com" target="_blank" class="boton boton-outline">Ver demo</a>
+        </div>
+      </article>
+
+      <article class="proyecto-card reveal">
+        <div class="proyecto-img">
+          <img src="proyecto-consultorio.jpg" alt="Consultorio Psicología">
+        </div>
+        <div class="proyecto-info">
+          <span class="proyecto-categoria">Salud</span>
+          <h3>Consultorio de Psicología</h3>
+          <p>Sitio para el Lic. Manuel Billordo con presentación, servicios y formulario de contacto.</p>
+          <a href="https://consultorio-psicologia.onrender.com" target="_blank" class="boton boton-outline">Ver demo</a>
+        </div>
+      </article>
+
+      <article class="proyecto-card reveal">
+        <div class="proyecto-img">
+          <img src="proyecto-estudio.jpg" alt="Estudio Jurídico">
+        </div>
+        <div class="proyecto-info">
+          <span class="proyecto-categoria">Legal</span>
+          <h3>Estudio Jurídico Ferrazzi</h3>
+          <p>Sitio profesional para estudio jurídico con áreas de práctica y formulario de consultas.</p>
+          <a href="https://estudio-juridico-gy7k.onrender.com" target="_blank" class="boton boton-outline">Ver demo</a>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- SOBRE NOSOTROS -->
+<section class="sobre-mi" id="nosotros">
+  <div class="contenedor sobre-mi-grid">
+    <div class="sobre-mi-foto reveal">
+      <img src="logo-syntaxis.png" alt="Syntaxis Web">
+    </div>
+    <div class="sobre-mi-texto reveal">
+      <div class="linea-azul" style="margin: 0 0 24px;"></div>
+      <h2>Sobre nosotros</h2>
+      <p><strong>Syntaxis Web</strong> es un estudio de desarrollo web con base en Corrientes, Argentina. Nos especializamos en crear páginas web profesionales para negocios y profesionales que quieren tener presencia online.</p>
+      <p>Trabajamos con <strong>HTML, CSS, JavaScript, Node.js, Git y Render</strong>. Cada proyecto lo diseñamos desde cero, pensando en las necesidades específicas de cada cliente.</p>
+      <p>Nuestro objetivo es que cada negocio, por pequeño que sea, pueda tener una página web <strong>moderna, rápida y funcional</strong>, con dominio propio y sin complicaciones técnicas.</p>
+
+      <div class="tecnologias">
+        <span>HTML</span>
+        <span>CSS</span>
+        <span>JavaScript</span>
+        <span>Node.js</span>
+        <span>Git</span>
+        <span>GitHub</span>
+        <span>Render</span>
+        <span>Formspree</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACTO -->
+<section id="contacto">
+  <div class="contenedor">
+    <div class="linea-azul reveal"></div>
+    <h2 class="titulo-seccion reveal">Contacto</h2>
+    <p class="subtitulo-seccion reveal">¿Tenés un proyecto en mente? Hablemos.</p>
+
+    <div class="contacto-grid">
+      <div class="reveal">
+        <div class="contacto-dato">
+          <strong>Email</strong>
+          <p><a href="mailto:fabricioferrazzi@yahoo.com.ar">fabricioferrazzi@yahoo.com.ar</a></p>
+        </div>
+        <div class="contacto-dato">
+          <strong>WhatsApp</strong>
+          <p><a href="https://wa.me/543795068130" target="_blank">+54 9 3795 068130</a></p>
+        </div>
+        <div class="contacto-dato">
+          <strong>Ubicación</strong>
+          <p>Corrientes, Argentina</p>
+        </div>
+
+        <div class="contacto-botones">
+          <a href="https://wa.me/543795068130" target="_blank" class="boton boton-azul">WhatsApp</a>
+          <a href="mailto:fabricioferrazzi@yahoo.com.ar" class="boton boton-outline">Email</a>
+        </div>
+      </div>
+
+      <div class="reveal" style="text-align: center;">
+        <div class="linea-azul" style="margin: 0 auto 24px;"></div>
+        <h3 style="font-size: 24px; margin-bottom: 16px; font-family: var(--font-titulo); letter-spacing: 1px;">¿Trabajamos juntos?</h3>
+        <p style="color: var(--gris);">Contanos tu idea y te pasamos un presupuesto sin compromiso.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <img src="logo-syntaxis.png" alt="Syntaxis Web" class="footer-logo">
+  <p class="footer-copy">Syntaxis Web © 2026 - Desarrollo Web Profesional</p>
+</footer>
+
+<!-- WHATSAPP FLOTANTE -->
+<a href="https://wa.me/543795068130" target="_blank" class="whatsapp-flotante" aria-label="WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.36 5.07L2 22l5.06-1.33A9.94 9.94 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm5.2 14.2c-.22.62-1.28 1.19-1.77 1.24-.45.05-.99.07-1.6-.1-.37-.1-.84-.27-1.45-.53-2.55-1.1-4.2-3.67-4.33-3.84-.13-.17-1.03-1.37-1.03-2.6 0-1.24.65-1.85.88-2.1.22-.24.5-.3.66-.3.17 0 .33 0 .48.01.15.01.36-.06.56.43.22.53.73 1.83.8 1.96.06.13.1.28.02.45-.08.17-.13.28-.25.43-.13.15-.27.34-.38.46-.13.13-.26.27-.11.53.15.26.66 1.09 1.42 1.77.98.87 1.8 1.14 2.06 1.27.26.13.41.11.56-.06.15-.17.65-.76.82-1.02.17-.26.34-.22.56-.13.22.08 1.41.66 1.65.78.24.13.4.19.46.3.06.11.06.62-.16 1.24z"/></svg>
+</a>
+
+<script>
+/* HEADER */
+const header = document.getElementById('header');
+window.addEventListener('scroll', () => {
+  header.classList.toggle('header-solido', window.scrollY > 40);
+});
+
+/* MENÚ MÓVIL */
+const navToggle = document.getElementById('navToggle');
+const navMenu = document.getElementById('navMenu');
+navToggle.addEventListener('click', () => navMenu.classList.toggle('abierto'));
+navMenu.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', () => navMenu.classList.remove('abierto'));
+});
+
+/* ANIMACIÓN */
+const observador = new IntersectionObserver((entradas) => {
+  entradas.forEach(entrada => {
+    if (entrada.isIntersecting) {
+      entrada.target.classList.add('visible');
+      observador.unobserve(entrada.target);
+    }
+  });
+}, { threshold: 0.15 });
+document.querySelectorAll('.reveal').forEach(el => observador.observe(el));
+</script>
+
+</body>
+</html>
