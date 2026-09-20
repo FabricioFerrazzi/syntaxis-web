@@ -284,6 +284,72 @@ section { padding: 120px 0; }
   max-width: 1000px;
   margin: 0 auto;
 }
+.formulario-contacto {
+  background-color: var(--carbon-solido);
+  border: 1px solid rgba(0,212,255,0.2);
+  border-radius: 4px;
+  padding: 40px;
+}
+
+.formulario-contacto .campo {
+  margin-bottom: 20px;
+}
+
+.formulario-contacto label {
+  display: block;
+  font-size: 12px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--azul);
+  margin-bottom: 8px;
+  font-family: var(--font-titulo);
+  font-weight: 500;
+}
+
+.formulario-contacto input,
+.formulario-contacto textarea {
+  width: 100%;
+  padding: 14px 16px;
+  background-color: var(--negro);
+  border: 1px solid rgba(0,212,255,0.2);
+  border-radius: 2px;
+  color: var(--crema);
+  font-family: var(--font-cuerpo);
+  font-size: 15px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.formulario-contacto input:focus,
+.formulario-contacto textarea:focus {
+  outline: none;
+  border-color: var(--azul);
+  box-shadow: 0 0 15px rgba(0,212,255,0.2);
+}
+
+.formulario-contacto input::placeholder,
+.formulario-contacto textarea::placeholder {
+  color: rgba(160,160,160,0.5);
+}
+
+.formulario-contacto textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.mensaje-exito {
+  display: none;
+  text-align: center;
+  padding: 20px;
+  background-color: rgba(0,212,255,0.1);
+  border: 1px solid var(--azul);
+  border-radius: 2px;
+  color: var(--azul);
+  margin-bottom: 20px;
+}
+
+.mensaje-exito.visible {
+  display: block;
+}
 .contacto-dato { margin-bottom: 24px; }
 .contacto-dato strong {
   display: block; color: var(--azul);
@@ -508,15 +574,32 @@ footer {
 
         <div class="contacto-botones">
           <a href="https://wa.me/543795068130" target="_blank" class="boton boton-azul">WhatsApp</a>
-          <a href="mailto:fabricioferrazzi@yahoo.com.ar" class="boton boton-outline">Email</a>
         </div>
       </div>
 
-      <div class="reveal" style="text-align: center;">
-        <div class="linea-azul" style="margin: 0 auto 24px;"></div>
-        <h3 style="font-size: 24px; margin-bottom: 16px; font-family: var(--font-titulo); letter-spacing: 1px;">¿Trabajamos juntos?</h3>
-        <p style="color: var(--gris);">Contanos tu idea y te pasamos un presupuesto sin compromiso.</p>
-      </div>
+      <form class="formulario-contacto reveal" id="formContacto" action="https://formspree.io/f/mdkeazd" method="POST">
+        <div class="campo">
+          <label for="nombre">Nombre</label>
+          <input type="text" id="nombre" name="nombre" required placeholder="Tu nombre">
+        </div>
+
+        <div class="campo">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required placeholder="tu@email.com">
+        </div>
+
+        <div class="campo">
+          <label for="telefono">Teléfono (opcional)</label>
+          <input type="tel" id="telefono" name="telefono" placeholder="+54 9 3795 000000">
+        </div>
+
+        <div class="campo">
+          <label for="mensaje">Mensaje</label>
+          <textarea id="mensaje" name="mensaje" rows="5" required placeholder="Contanos sobre tu proyecto..."></textarea>
+        </div>
+
+        <button type="submit" class="boton boton-azul" style="width: 100%;">Enviar mensaje</button>
+      </form>
     </div>
   </div>
 </section>
@@ -559,6 +642,53 @@ const observador = new IntersectionObserver((entradas) => {
   });
 }, { threshold: 0.15 });
 document.querySelectorAll('.reveal').forEach(el => observador.observe(el));
+
+/* FORMULARIO DE CONTACTO - FORMSPREE */
+const formContacto = document.getElementById('formContacto');
+
+if (formContacto) {
+  formContacto.addEventListener('submit', async function(event) {
+    event.preventDefault();
+    
+    const boton = formContacto.querySelector('button[type="submit"]');
+    const textoOriginal = boton.textContent;
+    boton.textContent = 'Enviando...';
+    boton.disabled = true;
+    
+    const datos = new FormData(formContacto);
+    
+    try {
+      const respuesta = await fetch('https://formspree.io/f/mdkeazd', {
+        method: 'POST',
+        body: datos,
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+      
+      if (respuesta.ok) {
+        formContacto.reset();
+        boton.textContent = '¡Mensaje enviado!';
+        
+        setTimeout(() => {
+          boton.textContent = textoOriginal;
+          boton.disabled = false;
+        }, 3000);
+      } else {
+        throw new Error('Error en el envío');
+      }
+    } catch (error) {
+      boton.textContent = 'Error. Intentá de nuevo';
+      boton.style.background = '#ff4444';
+      
+      setTimeout(() => {
+        boton.textContent = textoOriginal;
+        boton.disabled = false;
+        boton.style.background = '';
+      }, 3000);
+    }
+  });
+}
 </script>
 
 </body>
